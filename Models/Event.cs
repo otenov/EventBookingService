@@ -4,7 +4,7 @@ namespace EventBookingService.Models
 {
     public class Event
     {
-        public required Guid Id { get; init; }
+        public Guid Id { get; init; }
 
         public required string Title { get; set; }
 
@@ -14,13 +14,9 @@ namespace EventBookingService.Models
 
         public required DateTime EndAt { get; set; }
 
-        public Event(string title, string description, DateTime startAt, DateTime endAt)
+        public Event()
         {
             Id = Guid.NewGuid();
-            Title = title;
-            Description = description;
-            StartAt = startAt;
-            EndAt = endAt;
         }
 
     }

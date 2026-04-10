@@ -4,30 +4,49 @@ namespace EventBookingService
 {
     public class EventService : IEventService
     {
+        private readonly IEventRepository _eventRepository;
+
+        public EventService(IEventRepository eventRepository) //TODO: зарегать сервис в DI
+        {
+            _eventRepository=eventRepository;
+        }
+
+        public Event GetEventById(Guid id)
+        {
+            //авторизация
+            return _eventRepository.GetById(id);
+            //проверяю авторизацию
+            //вызываю логгер
+            //
+        }
+
+        public IReadOnlyList<Event> GetEvents()
+        {
+            return _eventRepository.GetEvents();
+        }
 
         public Event CreateEvent(string title, string description, DateTime startAt, DateTime endAt)
         {
-            throw new NotImplementedException();
+            Event _event = new Event()
+            {
+                Title = title,
+                Description = description,
+                StartAt = startAt,
+                EndAt = endAt
+            };
+            _eventRepository.Save(_event);
+            return _event;
+        }
+        public Event UpdateEvent(Event @event)
+        {
+            var _event = _eventRepository.Update(@event);
+            return _event;
         }
 
-        public void DeleteEvent(int id)
+        public Guid DeleteEventById(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Event GetEventById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Event> GetEvents()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateEvent(int id)
-        {
-            throw new NotImplementedException();
+            var _id = _eventRepository.DeleteById(id);
+            return id;
         }
     }
 }

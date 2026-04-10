@@ -3,15 +3,16 @@ namespace EventBookingService
 {
     public interface IEventService
     {
+        Event GetEventById(Guid id);
+
+        IReadOnlyList<Event> GetEvents();
+
         Event CreateEvent(string title, string description, DateTime startAt, DateTime endAt);
 
-        void DeleteEvent(int id);
+        Event UpdateEvent(Event @event);
 
-        List<Event> GetEvents();
+        Guid DeleteEventById(Guid id);
 
-        Event GetEventById(int id);
-
-        void UpdateEvent(int id); //Как обновлять?
 
 
     }
