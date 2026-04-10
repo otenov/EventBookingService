@@ -14,5 +14,14 @@ namespace EventBookingService.Models
 
         public required DateTime EndAt { get; set; }
 
+        public Event(string title, string description, DateTime startAt, DateTime endAt)
+        {
+            Id = Guid.NewGuid();
+            Title = title;
+            Description = description;
+            StartAt = startAt;
+            EndAt = endAt;
+        }
+
     }
 }
