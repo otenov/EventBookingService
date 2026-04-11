@@ -3,15 +3,15 @@ namespace EventBookingService
 {
     public interface IEventService
     {
-        Event GetEventById(Guid id);
+        Event? GetEventById(Guid id);
 
         IReadOnlyList<Event> GetEvents();
 
-        Event CreateEvent(string title, string description, DateTime startAt, DateTime endAt);
+        Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt);
 
-        Event UpdateEvent(Event @event);
+        Event? UpdateEvent(Event @event);
 
-        Guid DeleteEventById(Guid id);
+        bool DeleteEventById(Guid id);
 
 
 

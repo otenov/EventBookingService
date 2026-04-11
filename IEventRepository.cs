@@ -6,15 +6,15 @@ namespace EventBookingService
     public interface IEventRepository
     {
 
-        Event GetById(Guid id);
+        Event? GetById(Guid id);
 
         IReadOnlyList<Event> GetEvents();
 
         void Save(Event @event);
 
-        Event Update(Event @event);
+        Event? Update(Event @event);
 
-        Guid DeleteById(Guid id);
+        bool DeleteById(Guid id);
 
     }
 }

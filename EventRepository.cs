@@ -5,39 +5,45 @@ namespace EventBookingService
 {
     public class EventRepository : IEventRepository
     {
-        private readonly List<Event> events;
+        private readonly List<Event> _events = [];
 
-        public Event GetById(Guid id)
+        public Event? GetById(Guid id)
         {
-            var _event = events.FirstOrDefault(e => e.Id == id);
-            return _event;
+            var @event = _events.FirstOrDefault(e => e.Id == id);
+            return @event;
         }
 
         public IReadOnlyList<Event> GetEvents()
         {
-            return events;
+            return _events;
         }
 
         public void Save(Event @event)
         {
-            events.Add(@event);
+            _events.Add(@event);
         }
 
-        public Event Update(Event @event)
+        public Event? Update(Event @event)
         {
-            var _event = GetById(@event.Id);
-            _event.Title = @event.Title;
-            _event.Description = @event.Description;
-            _event.StartAt = @event.StartAt;
-            _event.EndAt = @event.EndAt;
-            return _event;
+            var existingEvent = GetById(@event.Id);
+            if (existingEvent is null) return null;
+            
+            existingEvent.Title = @event.Title;
+            existingEvent.Description = @event.Description;
+            existingEvent.StartAt = @event.StartAt;
+            existingEvent.EndAt = @event.EndAt;
+            return existingEvent;
         }
 
-        public Guid DeleteById(Guid id)
+        public bool DeleteById(Guid id)
         {
-            var _event = GetById(id);
-            events.Remove(_event);
-            return id;
+            var existingEvent = GetById(id);
+            if (existingEvent is not null)
+            {
+                _events.Remove(existingEvent);
+                return true;
+            }
+            return false;
         }
     }
 }
