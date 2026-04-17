@@ -34,15 +34,24 @@ namespace EventBookingService
             return @event;
         }
 
-        public Event? UpdateEvent(Event @event)
+        public Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
         {
-            var updatedEvent = _eventRepository.Update(@event);
-            return updatedEvent;
+            //TODO:Проверка
+            var existingEvent = _eventRepository.GetById(id);
+            if (existingEvent is null) return null;
+            existingEvent.Title = title;
+            existingEvent.Description = description;
+            existingEvent.StartAt = startAt;
+            existingEvent.EndAt = endAt;
+            return existingEvent;
         }
 
         public bool DeleteEventById(Guid id)
         {
-            return _eventRepository.DeleteById(id);
+            var existingEvent = _eventRepository.GetById(id);
+            if(existingEvent is null) return false;
+            _eventRepository.Delete(existingEvent);
+            return true;
         }
     }
 }

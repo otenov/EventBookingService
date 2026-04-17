@@ -12,9 +12,7 @@ namespace EventBookingService
 
         void Save(Event @event);
 
-        Event? Update(Event @event);
-
-        bool DeleteById(Guid id);
+        void Delete(Event @event);
 
     }
 }

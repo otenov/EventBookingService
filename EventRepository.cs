@@ -9,8 +9,7 @@ namespace EventBookingService
 
         public Event? GetById(Guid id)
         {
-            var @event = _events.FirstOrDefault(e => e.Id == id);
-            return @event;
+            return _events.FirstOrDefault(e => e.Id == id);
         }
 
         public IReadOnlyList<Event> GetEvents()
@@ -23,27 +22,9 @@ namespace EventBookingService
             _events.Add(@event);
         }
 
-        public Event? Update(Event @event)
+        public void Delete(Event existingEvent)
         {
-            var existingEvent = GetById(@event.Id);
-            if (existingEvent is null) return null;
-            
-            existingEvent.Title = @event.Title;
-            existingEvent.Description = @event.Description;
-            existingEvent.StartAt = @event.StartAt;
-            existingEvent.EndAt = @event.EndAt;
-            return existingEvent;
-        }
-
-        public bool DeleteById(Guid id)
-        {
-            var existingEvent = GetById(id);
-            if (existingEvent is not null)
-            {
-                _events.Remove(existingEvent);
-                return true;
-            }
-            return false;
+            _events.Remove(existingEvent);
         }
     }
 }

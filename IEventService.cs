@@ -9,7 +9,7 @@ namespace EventBookingService
 
         Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt);
 
-        Event? UpdateEvent(Event @event);
+        Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt);
 
         bool DeleteEventById(Guid id);
 
