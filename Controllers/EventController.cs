@@ -12,14 +12,14 @@ namespace EventBookingService.Controllers
     {
         private readonly IEventService _eventService;
 
-        public EventController(IEventService eventService, IEventRepository eventRepository)
+        public EventController(IEventService eventService)
         {
             _eventService = eventService;
         }
 
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetEvents()
         {
             return Ok(_eventService.GetEvents());
         }
@@ -65,5 +65,6 @@ namespace EventBookingService.Controllers
             return NoContent(); 
         }
         //TODO:Спросить как правильно именовать методы контроллера
+        //
     }
 }
