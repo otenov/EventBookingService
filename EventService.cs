@@ -38,8 +38,8 @@ namespace EventBookingService
         public Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
         {
             var existingEvent = _eventRepository.GetById(id);
-            ValidateDates(startAt, endAt);
             if (existingEvent is null) return null;
+            ValidateDates(startAt, endAt);
             existingEvent.Title = title;
             existingEvent.Description = description;
             existingEvent.StartAt = startAt;
