@@ -1,7 +1,7 @@
 ﻿using EventBookingService.Models;
 using System.Reflection.Metadata.Ecma335;
 
-namespace EventBookingService
+namespace EventBookingService.Repositories
 {
     public class EventRepository : IEventRepository
     {

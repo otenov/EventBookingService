@@ -1,4 +1,5 @@
-using EventBookingService;
+using EventBookingService.Services;
+using EventBookingService.Repositories;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);

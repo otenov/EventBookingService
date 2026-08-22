@@ -1,5 +1,5 @@
 ﻿using EventBookingService.Models;
-namespace EventBookingService
+namespace EventBookingService.Services
 {
     public interface IEventService
     {

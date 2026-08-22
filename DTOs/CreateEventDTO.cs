@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventBookingService
+namespace EventBookingService.DTOs
 {
     public class CreateEventDTO
     {

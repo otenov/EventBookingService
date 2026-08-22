@@ -1,4 +1,6 @@
 ﻿using EventBookingService.Models;
+using EventBookingService.DTOs;
+using EventBookingService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventBookingService.Controllers

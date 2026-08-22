@@ -1,6 +1,6 @@
 ﻿using EventBookingService.Models;
 
-namespace EventBookingService
+namespace EventBookingService.Repositories
 {
     public interface IEventRepository
     {

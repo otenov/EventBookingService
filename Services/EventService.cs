@@ -1,6 +1,7 @@
 ﻿using EventBookingService.Models;
+using EventBookingService.Repositories;
 
-namespace EventBookingService
+namespace EventBookingService.Services
 {
     public class EventService : IEventService
     {
