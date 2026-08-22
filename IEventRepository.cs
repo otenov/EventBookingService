@@ -1,5 +1,4 @@
 ﻿using EventBookingService.Models;
-using System.Xml.Linq;
 
 namespace EventBookingService
 {

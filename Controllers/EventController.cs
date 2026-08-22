@@ -1,8 +1,4 @@
-﻿using EventBookingService.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace EventBookingService.Controllers
 {
@@ -16,7 +12,6 @@ namespace EventBookingService.Controllers
         {
             _eventService = eventService;
         }
-
 
         [HttpGet]
         public IActionResult GetEvents()
@@ -35,26 +30,41 @@ namespace EventBookingService.Controllers
         [HttpPost]
         public IActionResult CreateEvent([FromBody] CreateEventDTO createEventDTO)
         {
-            var _event = _eventService.CreateEvent(
+            try
+            {
+                var createdEvent = _eventService.CreateEvent(
                 createEventDTO.Title,
                 createEventDTO.Description,
                 createEventDTO.StartAt,
                 createEventDTO.EndAt);
-
-            return CreatedAtAction(nameof(GetEventById), new { id = _event.Id }, _event);
+                return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new {error = ex.Message});
+            }
+           
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateEvent(Guid id, [FromBody] UpdateEventDTO updateEventDTO)
         {
-            var updatedEvent = _eventService.UpdateEvent(
+            try
+            {
+                var updatedEvent = _eventService.UpdateEvent(
                 id, 
                 updateEventDTO.Title, 
                 updateEventDTO.Description, 
                 updateEventDTO.StartAt, 
                 updateEventDTO.EndAt);
-            if(updatedEvent is null) return NotFound();
-            return Ok(updatedEvent);
+                if(updatedEvent is null) return NotFound();
+                return Ok(updatedEvent);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new {error = ex.Message});
+            }
+
         }
 
         [HttpDelete("{id}")]
@@ -64,7 +74,5 @@ namespace EventBookingService.Controllers
             if (!deleted) return NotFound();
             return NoContent(); 
         }
-        //TODO:Спросить как правильно именовать методы контроллера
-        //
     }
 }

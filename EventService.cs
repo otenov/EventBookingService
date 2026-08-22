@@ -6,7 +6,7 @@ namespace EventBookingService
     {
         private readonly IEventRepository _eventRepository;
 
-        public EventService(IEventRepository eventRepository) //TODO: зарегать сервис в DI
+        public EventService(IEventRepository eventRepository)
         {
             _eventRepository=eventRepository;
         }
@@ -23,6 +23,7 @@ namespace EventBookingService
 
         public Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt)
         {
+            ValidateDates(startAt, endAt);
             Event @event = new Event()
             {
                 Title = title,
@@ -36,8 +37,8 @@ namespace EventBookingService
 
         public Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
         {
-            //TODO:Проверка
             var existingEvent = _eventRepository.GetById(id);
+            ValidateDates(startAt, endAt);
             if (existingEvent is null) return null;
             existingEvent.Title = title;
             existingEvent.Description = description;
@@ -52,6 +53,14 @@ namespace EventBookingService
             if(existingEvent is null) return false;
             _eventRepository.Delete(existingEvent);
             return true;
+        }
+
+        private void ValidateDates(DateTime startAt, DateTime endAt)
+        {
+            if (endAt <= startAt)
+            {
+                throw new ArgumentException("Дата окончания должна быть позже даты начала.");
+            }
         }
     }
 }
