@@ -38,22 +38,20 @@ namespace EventBookingService.Services
 
         public Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
         {
+            ValidateDates(startAt, endAt);
             var existingEvent = _eventRepository.GetById(id);
             if (existingEvent is null) return null;
-            ValidateDates(startAt, endAt);
             existingEvent.Title = title;
             existingEvent.Description = description;
             existingEvent.StartAt = startAt;
             existingEvent.EndAt = endAt;
+            _eventRepository.Uodate(existingEvent);
             return existingEvent;
         }
 
         public bool DeleteEventById(Guid id)
         {
-            var existingEvent = _eventRepository.GetById(id);
-            if(existingEvent is null) return false;
-            _eventRepository.Delete(existingEvent);
-            return true;
+            return _eventRepository.Delete(id);
         }
 
         private void ValidateDates(DateTime startAt, DateTime endAt)

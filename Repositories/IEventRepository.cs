@@ -11,7 +11,9 @@ namespace EventBookingService.Repositories
 
         void Save(Event @event);
 
-        void Delete(Event @event);
+        void Uodate(Event @event);
+
+        bool Delete(Guid id);
 
     }
 }

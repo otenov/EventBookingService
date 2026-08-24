@@ -8,7 +8,7 @@ namespace EventBookingService.Controllers
     /// <summary>
     /// Контроллер для управления мероприятиями.
     /// </summary>
-    [Route("api/[controller]s")]
+    [Route("api/events")]
     [ApiController]
     public class EventController : ControllerBase
     {

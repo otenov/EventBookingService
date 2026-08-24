@@ -1,5 +1,4 @@
-﻿using System.Data;
-
+﻿
 namespace EventBookingService.Models
 {
     public class Event

@@ -1,5 +1,5 @@
 ﻿using EventBookingService.Models;
-using System.Reflection.Metadata.Ecma335;
+using EventBookingService.Services;
 
 namespace EventBookingService.Repositories
 {
@@ -22,9 +22,17 @@ namespace EventBookingService.Repositories
             _events.Add(@event);
         }
 
-        public void Delete(Event existingEvent)
+        public void Uodate(Event @event)
         {
+            // In-memory: объект уже изменён по ссылке.
+        }
+
+        public bool Delete(Guid id)
+        {
+            var existingEvent = GetById(id);
+            if(existingEvent is null) return false;
             _events.Remove(existingEvent);
+            return true;
         }
     }
 }

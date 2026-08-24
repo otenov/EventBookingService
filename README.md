@@ -83,4 +83,4 @@ dotnet run
 ## Swagger
 После запуска приложения Swagger UI доступен по адресу:
 
-`http://localhost:<port>/swagger`
+`http://localhost:5216/swagger`
