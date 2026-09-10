@@ -19,6 +19,7 @@ namespace EventBookingService.Controllers
         {
             _eventService = eventService;
         }
+
         /// <summary>
         /// Возвращает все мероприятия
         /// </summary>
@@ -44,7 +45,6 @@ namespace EventBookingService.Controllers
         public IActionResult GetEventById(Guid id)
         {
             var @event = _eventService.GetEventById(id);
-            if (@event is null) return NotFound();
             return Ok(@event);
         }
 
@@ -61,20 +61,12 @@ namespace EventBookingService.Controllers
         [HttpPost]
         public IActionResult CreateEvent([FromBody] CreateEventDTO createEventDTO)
         {
-            try
-            {
-                var createdEvent = _eventService.CreateEvent(
+            var createdEvent = _eventService.CreateEvent(
                 createEventDTO.Title,
                 createEventDTO.Description,
                 createEventDTO.StartAt,
                 createEventDTO.EndAt);
-                return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new {error = ex.Message});
-            }
-           
+            return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
         }
 
         /// <summary>
@@ -93,21 +85,13 @@ namespace EventBookingService.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateEvent(Guid id, [FromBody] UpdateEventDTO updateEventDTO)
         {
-            try
-            {
-                var updatedEvent = _eventService.UpdateEvent(
-                id, 
-                updateEventDTO.Title, 
-                updateEventDTO.Description, 
-                updateEventDTO.StartAt, 
+            var updatedEvent = _eventService.UpdateEvent(
+                id,
+                updateEventDTO.Title,
+                updateEventDTO.Description,
+                updateEventDTO.StartAt,
                 updateEventDTO.EndAt);
-                if(updatedEvent is null) return NotFound();
                 return Ok(updatedEvent);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new {error = ex.Message});
-            }
 
         }
         /// <summary>
@@ -121,8 +105,7 @@ namespace EventBookingService.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteEvent(Guid id)
         {
-            var deleted = _eventService.DeleteEventById(id);
-            if (!deleted) return NotFound();
+            _eventService.DeleteEventById(id);
             return NoContent(); 
         }
     }

@@ -1,5 +1,4 @@
 ﻿using EventBookingService.Models;
-using EventBookingService.Services;
 
 namespace EventBookingService.Repositories
 {
@@ -22,7 +21,7 @@ namespace EventBookingService.Repositories
             _events.Add(@event);
         }
 
-        public void Uodate(Event @event)
+        public void Update(Event @event)
         {
             // In-memory: объект уже изменён по ссылке.
         }
@@ -30,7 +29,7 @@ namespace EventBookingService.Repositories
         public bool Delete(Guid id)
         {
             var existingEvent = GetById(id);
-            if(existingEvent is null) return false;
+            if (existingEvent is null) return false;
             _events.Remove(existingEvent);
             return true;
         }

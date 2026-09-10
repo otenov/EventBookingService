@@ -1,5 +1,6 @@
 ﻿using EventBookingService.Models;
 using EventBookingService.Repositories;
+using EventBookingService.Exceptions;
 
 namespace EventBookingService.Services
 {
@@ -9,13 +10,12 @@ namespace EventBookingService.Services
 
         public EventService(IEventRepository eventRepository)
         {
-            _eventRepository=eventRepository;
+            _eventRepository = eventRepository;
         }
 
-        public Event? GetEventById(Guid id)
-        {
-            return _eventRepository.GetById(id);
-        }
+        public Event GetEventById(Guid id) => 
+        _eventRepository.GetById(id) 
+        ?? throw new NotFoundException($"Мероприятие с id {id} не найдено");
 
         public IReadOnlyList<Event> GetEvents()
         {
@@ -36,29 +36,29 @@ namespace EventBookingService.Services
             return @event;
         }
 
-        public Event? UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
+        public Event UpdateEvent(Guid id, string title, string? description, DateTime startAt, DateTime endAt)
         {
             ValidateDates(startAt, endAt);
-            var existingEvent = _eventRepository.GetById(id);
-            if (existingEvent is null) return null;
+            var existingEvent = GetEventById(id);
             existingEvent.Title = title;
             existingEvent.Description = description;
             existingEvent.StartAt = startAt;
             existingEvent.EndAt = endAt;
-            _eventRepository.Uodate(existingEvent);
+            _eventRepository.Update(existingEvent);
             return existingEvent;
         }
 
-        public bool DeleteEventById(Guid id)
+        public void DeleteEventById(Guid id)
         {
-            return _eventRepository.Delete(id);
+            var isDeleted =_eventRepository.Delete(id);
+            if(!isDeleted) throw new NotFoundException($"Мероприятие с id {id} не найдено");
         }
 
         private void ValidateDates(DateTime startAt, DateTime endAt)
         {
             if (endAt <= startAt)
             {
-                throw new ArgumentException("Дата окончания должна быть позже даты начала.");
+                throw new ValidationException("Дата окончания должна быть позже даты начала.");
             }
         }
     }
