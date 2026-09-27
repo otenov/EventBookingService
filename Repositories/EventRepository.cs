@@ -1,7 +1,5 @@
 ﻿using EventBookingService.DTOs;
 using EventBookingService.Models;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
-
 namespace EventBookingService.Repositories
 {
     public class EventRepository : IEventRepository
@@ -13,7 +11,7 @@ namespace EventBookingService.Repositories
             return _events.FirstOrDefault(e => e.Id == id);
         }
 
-        public IReadOnlyList<Event> GetEvents(EventQuery eventQuery)
+        public PagedData GetEvents(EventQuery eventQuery)
         {
             IEnumerable<Event> query = _events;
 
@@ -26,7 +24,17 @@ namespace EventBookingService.Repositories
             if(eventQuery.To is DateTime to)
             query = query.Where(e=>e.EndAt<=to);
 
-            return query.ToList();
+            var totalCount = query.Count();
+
+            var events = query.Skip((eventQuery.Page - 1)*eventQuery.PageSize)
+                           .Take(eventQuery.PageSize)
+                           .ToList();
+
+            return new PagedData
+            {
+              Events = events,
+              TotalCount = totalCount  
+            };
         }
 
         public void Save(Event @event)

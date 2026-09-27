@@ -18,14 +18,27 @@ namespace EventBookingService.Services
         _eventRepository.GetById(id) 
         ?? throw new NotFoundException($"Мероприятие с id {id} не найдено");
 
-        public IReadOnlyList<Event> GetEvents(EventQuery eventQuery)
+        public PaginatedResult GetEvents(EventQuery eventQuery)
         {
             if (eventQuery.From.HasValue &&
                 eventQuery.To.HasValue &&
                 eventQuery.From > eventQuery.To)
                 throw new ValidationException("Дата From не может быть позже даты To.");
-                
-            return _eventRepository.GetEvents(eventQuery);
+
+            if (eventQuery.Page <= 0)
+            throw new ValidationException("Page должен быть больше 0.");
+            if (eventQuery.PageSize <=0)
+            throw new ValidationException("PageSize должен быть больше 0.");
+
+            var events = _eventRepository.GetEvents(eventQuery);
+            
+            return new PaginatedResult
+            {
+                TotalCount = events.TotalCount,
+                Events = events.Events,
+                Page = eventQuery.Page,
+                Count = events.Events.Count
+            };
         }
 
         public Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt)
@@ -67,5 +80,6 @@ namespace EventBookingService.Services
                 throw new ValidationException("Дата окончания должна быть позже даты начала.");
             }
         }
+
     }
 }

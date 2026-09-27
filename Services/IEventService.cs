@@ -6,7 +6,7 @@ namespace EventBookingService.Services
     {
         Event GetEventById(Guid id);
 
-        IReadOnlyList<Event> GetEvents(EventQuery eventQuery);
+        PaginatedResult GetEvents(EventQuery eventQuery);
 
         Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt);
 

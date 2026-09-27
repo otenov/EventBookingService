@@ -8,7 +8,7 @@ namespace EventBookingService.Repositories
 
         Event? GetById(Guid id);
 
-        IReadOnlyList<Event> GetEvents(EventQuery eventQuery);
+        PagedData GetEvents(EventQuery eventQuery);
 
         void Save(Event @event);
 
