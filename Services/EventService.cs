@@ -1,6 +1,7 @@
 ﻿using EventBookingService.Models;
 using EventBookingService.Repositories;
 using EventBookingService.Exceptions;
+using EventBookingService.DTOs;
 
 namespace EventBookingService.Services
 {
@@ -17,9 +18,14 @@ namespace EventBookingService.Services
         _eventRepository.GetById(id) 
         ?? throw new NotFoundException($"Мероприятие с id {id} не найдено");
 
-        public IReadOnlyList<Event> GetEvents()
+        public IReadOnlyList<Event> GetEvents(EventQuery eventQuery)
         {
-            return _eventRepository.GetEvents();
+            if (eventQuery.From.HasValue &&
+                eventQuery.To.HasValue &&
+                eventQuery.From > eventQuery.To)
+                throw new ValidationException("Дата From не может быть позже даты To.");
+                
+            return _eventRepository.GetEvents(eventQuery);
         }
 
         public Event CreateEvent(string title, string? description, DateTime startAt, DateTime endAt)

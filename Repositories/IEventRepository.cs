@@ -1,4 +1,5 @@
-﻿using EventBookingService.Models;
+﻿using EventBookingService.DTOs;
+using EventBookingService.Models;
 
 namespace EventBookingService.Repositories
 {
@@ -7,7 +8,7 @@ namespace EventBookingService.Repositories
 
         Event? GetById(Guid id);
 
-        IReadOnlyList<Event> GetEvents();
+        IReadOnlyList<Event> GetEvents(EventQuery eventQuery);
 
         void Save(Event @event);
 

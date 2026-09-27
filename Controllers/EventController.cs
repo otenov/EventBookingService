@@ -27,9 +27,9 @@ namespace EventBookingService.Controllers
         [ProducesResponseType(typeof(IReadOnlyList<Event>),StatusCodes.Status200OK)]
         [Produces("application/json")]
         [HttpGet]
-        public IActionResult GetEvents()
+        public IActionResult GetEvents([FromQuery] EventQuery eventQuery)
         {
-            return Ok(_eventService.GetEvents());
+            return Ok(_eventService.GetEvents(eventQuery));
         }
 
         /// <summary>

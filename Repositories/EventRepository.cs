@@ -1,4 +1,6 @@
-﻿using EventBookingService.Models;
+﻿using EventBookingService.DTOs;
+using EventBookingService.Models;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace EventBookingService.Repositories
 {
@@ -11,9 +13,20 @@ namespace EventBookingService.Repositories
             return _events.FirstOrDefault(e => e.Id == id);
         }
 
-        public IReadOnlyList<Event> GetEvents()
+        public IReadOnlyList<Event> GetEvents(EventQuery eventQuery)
         {
-            return _events;
+            IEnumerable<Event> query = _events;
+
+            if(!string.IsNullOrWhiteSpace(eventQuery.Title))
+            query = query.Where(e=>e.Title.Contains(eventQuery.Title, StringComparison.OrdinalIgnoreCase));
+
+            if(eventQuery.From is DateTime from)
+            query = query.Where(e=>e.StartAt>=from);
+
+            if(eventQuery.To is DateTime to)
+            query = query.Where(e=>e.EndAt<=to);
+
+            return query.ToList();
         }
 
         public void Save(Event @event)
