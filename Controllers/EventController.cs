@@ -24,7 +24,7 @@ namespace EventBookingService.Controllers
         /// Возвращает все мероприятия
         /// </summary>
         /// <response code="200">Мероприятия найдены</response>
-        [ProducesResponseType(typeof(IReadOnlyList<Event>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResult),StatusCodes.Status200OK)]
         [Produces("application/json")]
         [HttpGet]
         public IActionResult GetEvents([FromQuery] EventQuery eventQuery)
