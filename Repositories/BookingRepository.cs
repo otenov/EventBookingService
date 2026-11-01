@@ -2,7 +2,7 @@ using EventBookingService.Models;
 
 namespace EventBookingService.Repositories;
 
-public class BookingRepositories() : IBookingRepository
+public class BookingRepository() : IBookingRepository
 {
     private readonly List<Booking> _bookings = [];
 

@@ -9,7 +9,7 @@ public class Booking()
 
     public BookingStatus Status {get; set;} = BookingStatus.Pending;
 
-    public DateTime CreatedAt {get; set;} = DateTime.Now;
+    public DateTime CreatedAt {get; init;} = DateTime.UtcNow;
 
-    public DateTime? ProcesseAt{get;set;}
+    public DateTime? ProcessedAt{get;set;}
 }
