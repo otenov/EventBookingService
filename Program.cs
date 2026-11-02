@@ -44,6 +44,8 @@ builder.Services.AddSingleton<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddSingleton<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddSingleton<IBookingTaskQueue, InMemoryBookingTaskQueue>();
+builder.Services.AddHostedService<BookingBackgroundService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

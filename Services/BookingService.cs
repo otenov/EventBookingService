@@ -10,10 +10,13 @@ public class BookingService : IBookingService
     private readonly IBookingRepository _bookingRepository;
     private readonly IEventRepository _eventRepository;
 
-    public BookingService(IBookingRepository bookingRepository, IEventRepository eventRepository)
+    private readonly IBookingTaskQueue _bookingTaskQueue;
+
+    public BookingService(IBookingRepository bookingRepository, IEventRepository eventRepository, IBookingTaskQueue bookingTaskQueue)
     {
         _bookingRepository = bookingRepository;
         _eventRepository = eventRepository;
+        _bookingTaskQueue = bookingTaskQueue;
     }
 
     public Task<BookingInfoDTO> CreateBookingAsync(Guid eventId)
@@ -25,6 +28,7 @@ public class BookingService : IBookingService
             EventId = eventId,
         };
         _bookingRepository.Save(booking);
+        _bookingTaskQueue.Enqueue(booking);
         var bookingInfoDTO = ToDto(booking);
         return Task.FromResult(bookingInfoDTO);
     }
