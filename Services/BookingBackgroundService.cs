@@ -6,7 +6,7 @@ public class BookingBackgroundService(IBookingTaskQueue bookingTaskQueue, ILogge
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogInformation("Сервис обработки задач на бронирование запушен");
+        logger.LogInformation("Сервис обработки задач на бронирование запущен");
         while (!stoppingToken.IsCancellationRequested)
         {
             try
@@ -19,6 +19,7 @@ public class BookingBackgroundService(IBookingTaskQueue bookingTaskQueue, ILogge
                     booking.ProcessedAt = DateTime.UtcNow;
                     logger.LogInformation("Бронирование c id: {bookingId} прошло успешно. Статус: {Status}", booking.Id, booking.Status);
                 }
+                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
@@ -28,7 +29,6 @@ public class BookingBackgroundService(IBookingTaskQueue bookingTaskQueue, ILogge
             {
                 logger.LogError(ex, "Неизвестная ошибка бронирования");
             }
-            await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
         }
         logger.LogInformation("Сервис обработки задач на бронирование остановлен");
     }

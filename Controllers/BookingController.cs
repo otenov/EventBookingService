@@ -34,7 +34,7 @@ public class BookingController(IBookingService bookingService) : ControllerBase
     [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
     [Produces("application/json")]
     [HttpPost("/api/events/{eventId}/book")]
-    public async Task<IActionResult> CreateBooking(Guid eventId)
+    public async Task<IActionResult> CreateBookingAsync(Guid eventId)
     {
         var booking = await bookingService.CreateBookingAsync(eventId);
         string location = $"/api/bookings/{booking.Id}";
