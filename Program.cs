@@ -3,11 +3,18 @@ using EventBookingService.Repositories;
 using EventBookingService.Middleware;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+    })
     .ConfigureApiBehaviorOptions(options =>
     {
         options.InvalidModelStateResponseFactory = context =>
@@ -35,6 +42,10 @@ builder.Services
 
 builder.Services.AddSingleton<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddSingleton<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddSingleton<IBookingTaskQueue, InMemoryBookingTaskQueue>();
+builder.Services.AddHostedService<BookingBackgroundService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

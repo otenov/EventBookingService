@@ -39,7 +39,7 @@ namespace EventBookingService.Controllers
         /// <response code="200">Мероприятие найдено </response>
         /// <response code="404">Мероприятие не найдено </response>
         [ProducesResponseType(typeof(Event), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
         [Produces("application/json")]
         [HttpGet("{id}")]
         public IActionResult GetEventById(Guid id)
@@ -78,7 +78,7 @@ namespace EventBookingService.Controllers
         /// <response code="404">Мероприятие не найдено</response>
         /// <response code="400">Переданы некорректные данные</response>
         [ProducesResponseType(typeof(Event), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -101,7 +101,7 @@ namespace EventBookingService.Controllers
         /// <response code="204">Мероприятие успешно удалено</response>
         /// <response code="404">Мероприятие не найдено</response>
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public IActionResult DeleteEvent(Guid id)
         {
